@@ -104,28 +104,20 @@ def create_geosparql_ttl(geojson_data, filename, output_dir):
 
 """
 
-    # Start feature collection
-    ttl_content += (
-        """[ a                    geo:FeatureCollection;
-  dc:creator           "https://orcid.org/0000-0003-4165-4062";
-  dc:date              \""""
-        + timestamp
-        + """\"^^xsd:dateTime;
-  dc:description       "Tissue classification predictions for """
-        + image_id
-        + """";
-  dc:publisher         <https://ror.org/01882y777> , <https://ror.org/05qghxh33>;
-  dc:references        "https://doi.org/10.1038/s41597-020-0528-1";
-  dc:title             "tissue-classification-predictions";
-  prov:wasGeneratedBy  [ a                       prov:Activity;
-                         prov:used               <urn:md5:"""
-        + image_hash
-        + """>;
-                         prov:wasAssociatedWith  <https://github.com/tissue-classification-model>
-                       ];
+    # Start feature collection with <> as the subject (self-reference)
+    ttl_content += """<>      a                    geo:FeatureCollection;
+        dc:creator           "http://orcid.org/0000-0003-4165-4062";
+        dc:date              \"""" + timestamp + """\"^^xsd:dateTime;
+        dc:description       "Tissue classification predictions for """ + image_id + """";
+        dc:publisher         <https://ror.org/01882y777> , <https://ror.org/05qghxh33>;
+        dc:references        "https://doi.org/10.1038/s41597-020-0528-1";
+        dc:title             "tissue-classification-predictions";
+        prov:wasGeneratedBy  [ a                       prov:Activity;
+                               prov:used               <urn:md5:""" + image_hash + """>;
+                               prov:wasAssociatedWith  <https://github.com/tissue-classification-model>
+                             ];
 """
-    )
-
+    
     # Process features
     features = geojson_data.get("features", [])
     feature_count = 0
@@ -151,13 +143,13 @@ def create_geosparql_ttl(geojson_data, filename, output_dir):
                 # Add separator for multiple features
                 if feature_count > 0:
                     ttl_content += ";\n"
-
-                # Add feature
-                ttl_content += f"""  rdfs:member          [ a                   geo:Feature;
-                         geo:hasGeometry     [ geo:asWKT  "{wkt}" ];
-                         hal:classification  sno:{snomed_id};
-                         hal:measurement     """
-
+                
+                # Add feature with proper indentation for <> subject
+                ttl_content += f"""        rdfs:member          [ a                   geo:Feature;
+                               geo:hasGeometry     [ geo:asWKT  "{wkt}" ];
+                               hal:classification  sno:{snomed_id};
+                               hal:measurement     """
+                
                 # Add measurements for all classes
                 measurement_count = 0
                 for key, value in measurements.items():
@@ -167,22 +159,19 @@ def create_geosparql_ttl(geojson_data, filename, output_dir):
                             class_snomed = SNOMED_MAPPINGS[class_name].split("/")[-1]
 
                             if measurement_count > 0:
-                                ttl_content += (
-                                    ",\n                                             "
-                                )
-
-                            ttl_content += f"""[ hal:classification  sno:{class_snomed};
+                                ttl_content += f""",
+                                             [ hal:classification  sno:{class_snomed};
                                                hal:hasProbability  "{value:.6f}"^^xsd:float
                                              ]"""
 
                             measurement_count += 1
-
-                ttl_content += "\n                       ]"
+                
+                ttl_content += "\n                             ]"
                 feature_count += 1
-
-    # Close the feature collection
-    ttl_content += "\n] .\n"
-
+    
+    # Close the feature collection with proper terminator
+    ttl_content += " .\n"
+    
     return ttl_content
 
 
@@ -254,9 +243,7 @@ def main():
 
     if test_mode:
         # Test with a single file
-        test_file = (
-            "TCGA-IB-7887-01A-01-TS1.8ce76657-42b6-48a8-ba12-c2b697173e10.geojson"
-        )
+        test_file = "TCGA-IB-7887-01A-01-TS1.8ce76657-42b6-48a8-ba12-c2b697173e10.geojson"
         test_path = Path(INPUT_DIR) / test_file
 
         if test_path.exists():
