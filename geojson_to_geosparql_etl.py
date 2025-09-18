@@ -70,8 +70,8 @@ def extract_image_id(filename):
 
 
 def generate_image_hash(image_id):
-    """Generate MD5 hash for image URN."""
-    return hashlib.md5(image_id.encode()).hexdigest()
+    """Generate SHA-256 hash for image URN."""
+    return hashlib.sha256(image_id.encode()).hexdigest()
 
 
 def create_geosparql_ttl(geojson_data, filename, output_dir):
