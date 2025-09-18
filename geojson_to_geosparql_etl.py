@@ -107,7 +107,7 @@ def create_geosparql_ttl(geojson_data, filename, output_dir):
     # Start feature collection
     ttl_content += (
         """[ a                    geo:FeatureCollection;
-  dc:creator           "http://orcid.org/0000-0003-0223-1059";
+  dc:creator           "https://orcid.org/0000-0003-4165-4062";
   dc:date              \""""
         + timestamp
         + """\"^^xsd:dateTime;
