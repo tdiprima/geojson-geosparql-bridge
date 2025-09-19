@@ -11,16 +11,16 @@ from pathlib import Path
 
 # SNOMED URI mappings for tissue classes
 SNOMED_MAPPINGS = {
-    "400p-Acinar tissue": "http://snomed.info/id/62496006",  # Acinar structure
-    "400p-Dysplastic epithelium": "http://snomed.info/id/276654001",  # Epithelial dysplasia
-    "400p-Fibrosis": "http://snomed.info/id/263756000",  # Fibrosis
-    "400p-Lymph Aggregates": "http://snomed.info/id/50280005",  # Lymphoid aggregate
-    "400p-Necrosis": "http://snomed.info/id/6574001",  # Necrosis
-    "400p-Nerves": "http://snomed.info/id/88545005",  # Peripheral nerve structure
-    "400p-Normal ductal epithelium": "http://snomed.info/id/398028009",  # Ductal epithelium
-    "400p-Reactive": "http://snomed.info/id/11214006",  # Reactive hyperplasia
-    "400p-Stroma": "http://snomed.info/id/23853002",  # Stromal tissue
-    "400p-Tumor": "http://snomed.info/id/108369006",  # Neoplasm
+    "400p-Acinar tissue": "http://snomed.info/id/73681006",
+    "400p-Dysplastic epithelium": "http://snomed.info/id/61313004",
+    "400p-Fibrosis": "http://snomed.info/id/112674009",
+    "400p-Lymph Aggregates": "http://snomed.info/id/267190001",
+    "400p-Necrosis": "http://snomed.info/id/6574001",
+    "400p-Nerves": "http://snomed.info/id/88545005",
+    "400p-Normal ductal epithelium": "http://snomed.info/id/27834005",
+    "400p-Reactive": "http://snomed.info/id/11214006",
+    "400p-Stroma": "http://snomed.info/id/128752000",
+    "400p-Tumor": "http://snomed.info/id/108369006",
 }
 
 
